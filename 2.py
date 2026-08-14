@@ -1,6 +1,6 @@
 binary = input("Enter a 4-bit binary number: ")
 
-if len(binary) == 4 and binary[0] != '0'and all(bit in "01" for bit in binary):
+if len(binary) == 4 and all(bit in "01" for bit in binary):
 
     m = len(binary)
 
@@ -14,7 +14,7 @@ if len(binary) == 4 and binary[0] != '0'and all(bit in "01" for bit in binary):
 
     j = 0
     for i in range(1, n + 1):
-        if i & (i - 1) == 0:      
+        if i & (i - 1) == 0:
             continue
         hamming[i] = binary[j]
         j += 1
