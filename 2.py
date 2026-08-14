@@ -24,7 +24,7 @@ if len(binary) == 4 and all(bit in "01" for bit in binary):
         parity = 0
 
         for j in range(1, n + 1):
-            if j & p:
+            if j & p and j != p:
                 parity ^= int(hamming[j])
 
         hamming[p] = str(parity)
