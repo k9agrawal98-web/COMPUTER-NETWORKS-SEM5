@@ -1,60 +1,60 @@
 #include <iostream>
 #include <cmath>
-#include <string>
-
 using namespace std;
 
 int main() {
-    int o1, o2, o3, o4;
-    char dot;
-    int cidr;
+    int a, b, c, d, prefix;
+    char separator;
 
-    // 1. Get user input for Base IP and CIDR prefix
     cout << "Enter base IP address (e.g., 192.168.10.0): ";
-    cin >> o1 >> dot >> o2 >> dot >> o3 >> dot >> o4;
+    cin >> a >> separator >> b >> separator >> c >> separator >> d;
 
     cout << "Enter CIDR prefix (e.g., 26 for /26): ";
-    cin >> cidr;
+    cin >> prefix;
 
-    // Validate for Class C subnetting range
-    if (cidr < 24 || cidr > 30) {
+    if (prefix < 24 || prefix > 30) {
         cout << "Error: This program currently supports Class C subnetting (CIDR 24 to 30)." << endl;
         return 1;
     }
 
-    // 2. Calculate the core subnetting details
-    int hostBits = 32 - cidr;
-    int blockSize = pow(2, hostBits);
-    int numSubnets = 256 / blockSize;
-    int usableHosts = blockSize - 2;
-    int lastOctetMask = 256 - blockSize;
+    int h = 32 - prefix;
+    int size = static_cast<int>(pow(2, h));
+    int subnets = 256 / size;
+    int hosts = size - 2;
+    int mask = 256 - size;
 
-    // Display general subnet information
     cout << "\n--- General Subnet Information ---" << endl;
-    cout << "Calculated Subnet Mask : 255.255.255." << lastOctetMask << endl;
-    cout << "Total Usable Hosts     : " << usableHosts << " per subnet" << endl;
-    cout << "Total Subnets Created  : " << numSubnets << "\n" << endl;
+    cout << "Calculated Subnet Mask : 255.255.255." << mask << endl;
+    cout << "Total Usable Hosts     : " << hosts << " per subnet" << endl;
+    cout << "Total Subnets Created  : " << subnets << "\n" << endl;
 
-    // 3 & 4. Calculate and Display specifics for each subnet
-    for (int i = 0; i < numSubnets; ++i) {
-        int network = i * blockSize;
-        int firstHost = network + 1;
-        int lastHost = network + usableHosts;
-        int broadcast = network + blockSize - 1;
+    for (int n = 0; n < subnets; n++) {
+        int start = n * size;
+        int first = start + 1;
+        int last = start + hosts;
+        int end = start + size - 1;
 
-        cout << "=========================================" << endl;
-        cout << "Subnet " << (i + 1) << endl;
-        cout << "=========================================" << endl;
-        cout << "Network Address   : " << o1 << "." << o2 << "." << o3 << "." << network << endl;
-        cout << "First Host        : " << o1 << "." << o2 << "." << o3 << "." << firstHost << endl;
-        cout << "Last Host         : " << o1 << "." << o2 << "." << o3 << "." << lastHost << endl;
-        cout << "Broadcast Address : " << o1 << "." << o2 << "." << o3 << "." << broadcast << endl;
+     
+        cout << "Subnet " << n + 1 << endl;
+    
+        cout << "Network Address   : "
+             << a << "." << b << "." << c << "." << start << endl;
 
-        // Print all usable IP addresses in this subnet
+        cout << "First Host        : "
+             << a << "." << b << "." << c << "." << first << endl;
+
+        cout << "Last Host         : "
+             << a << "." << b << "." << c << "." << last << endl;
+
+        cout << "Broadcast Address : "
+             << a << "." << b << "." << c << "." << end << endl;
+
         cout << "\nUsable IP Addresses:" << endl;
-        for (int j = firstHost; j <= lastHost; ++j) {
-            cout << "  " << o1 << "." << o2 << "." << o3 << "." << j << endl;
+
+        for (int ip = first; ip <= last; ip++) {
+            cout << "  " << a << "." << b << "." << c << "." << ip << endl;
         }
+
         cout << endl;
     }
 
